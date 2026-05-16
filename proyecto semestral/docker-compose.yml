@@ -20,7 +20,7 @@ services:
   # --- MICROSERVICIO: DESPACHOS ---
   back-despachos:
     build:
-      context: "./back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO" # <--- Arreglado: Ruta directa
+      context: "./back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO" 
       dockerfile: Dockerfile
     container_name: back-despachos
     restart: always
@@ -38,7 +38,7 @@ services:
   # --- MICROSERVICIO: VENTAS ---
   back-ventas:
     build:
-      context: "./back-Ventas_SpringBoot/Springboot-API-REST" # <--- Arreglado: Ruta directa
+      context: "./back-Ventas_SpringBoot/Springboot-API-REST" 
       dockerfile: Dockerfile
     container_name: back-ventas
     restart: always

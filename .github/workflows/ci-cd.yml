@@ -1,0 +1,62 @@
+name: Innovatech Chile CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # --- ETAPA 1: VALIDACIÓN E INTEGRACIÓN CONTINUA (CI) ---
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout del código
+      uses: actions/checkout@v4
+
+    # Validar que el Frontend de Vite compile sin romper nada
+    - name: Configurar Node.js (Frontend)
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+        cache-dependency-path: './proyecto semestral/front_despacho/package-lock.json'
+
+    - name: Validar Construcción del Frontend
+      run: |
+        cd "proyecto semestral/front_despacho"
+        npm ci
+        npm run build
+
+    # Validar que los Microservicios de Java compilen correctamente
+    - name: Configurar JDK 17 (Java Backends)
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: 'maven'
+
+    - name: Validar Compilación Backend Despachos
+      run: |
+        cd "proyecto semestral/back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO"
+        mvn clean package -DskipTests
+
+    - name: Validar Compilación Backend Ventas
+      run: |
+        cd "proyecto semestral/back-Ventas_SpringBoot/Springboot-API-REST"
+        mvn clean package -DskipTests
+
+  # --- ETAPA 2: SMOKE TEST DE CONFIGURACIÓN ---
+  docker-smoke-test:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout del código
+      uses: actions/checkout@v4
+
+    - name: Verificar Integridad del Docker-Compose
+      run: |
+        cd "proyecto semestral"
+        docker compose config
