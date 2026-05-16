@@ -13,14 +13,14 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data # <--- INDICADOR IE3: Persistencia de datos
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - innovatech-net
 
   # --- MICROSERVICIO: DESPACHOS ---
   back-despachos:
     build:
-      context: ./back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO
+      context: "./proyecto semestral/back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO"
       dockerfile: Dockerfile
     container_name: back-despachos
     restart: always
@@ -38,7 +38,7 @@ services:
   # --- MICROSERVICIO: VENTAS ---
   back-ventas:
     build:
-      context: ./back-Ventas_SpringBoot/Springboot-API-REST
+      context: "./proyecto semestral/back-Ventas_SpringBoot/Springboot-API-REST"
       dockerfile: Dockerfile
     container_name: back-ventas
     restart: always
@@ -53,11 +53,11 @@ services:
     networks:
       - innovatech-net
 
-# --- REDES INTERNAS (Aislamiento de Seguridad) ---
+# --- REDES INTERNAS ---
 networks:
   innovatech-net:
     driver: bridge
 
-# --- VOLÚMENES DEFINIDOS ---
+# --- VOLÚMENES ---
 volumes:
-  postgres_data: # <--- Named Volume para la persistencia de la BD
+  postgres_data:
