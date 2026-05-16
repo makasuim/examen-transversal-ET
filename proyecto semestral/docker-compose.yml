@@ -1,19 +1,20 @@
 version: '3.8'
 
 services:
-  # --- BASE DE DATOS (PostgreSQL) ---
-  postgres-db:
-    image: postgres:15-alpine
-    container_name: innovatech-postgres
+  # --- BASE DE DATOS (MySQL) ---
+  mysql-db:
+    image: mysql:8.0
+    container_name: innovatech-mysql
     restart: always
     environment:
-      POSTGRES_USER: devops_user
-      POSTGRES_PASSWORD: InnovatechSecurePassword2026
-      POSTGRES_DB: innovatech_db
+      MYSQL_ROOT_PASSWORD: InnovatechSecurePassword2026
+      MYSQL_DATABASE: innovatech_db
+      MYSQL_USER: devops_user
+      MYSQL_PASSWORD: InnovatechSecurePassword2026
     ports:
-      - "5432:5432"
+      - "3306:3306"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - mysql_data:/var/lib/mysql
     networks:
       - innovatech-net
 
@@ -27,11 +28,13 @@ services:
     ports:
       - "8081:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/innovatech_db
-      - SPRING_DATASOURCE_USERNAME=devops_user
-      - SPRING_DATASOURCE_PASSWORD=InnovatechSecurePassword2026
+      - DB_ENDPOINT=mysql-db
+      - DB_PORT=3306
+      - DB_NAME=innovatech_db
+      - DB_USERNAME=devops_user
+      - DB_PASSWORD=InnovatechSecurePassword2026
     depends_on:
-      - postgres-db
+      - mysql-db
     networks:
       - innovatech-net
 
@@ -45,11 +48,13 @@ services:
     ports:
       - "8082:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/innovatech_db
-      - SPRING_DATASOURCE_USERNAME=devops_user
-      - SPRING_DATASOURCE_PASSWORD=InnovatechSecurePassword2026
+      - DB_ENDPOINT=mysql-db
+      - DB_PORT=3306
+      - DB_NAME=innovatech_db
+      - DB_USERNAME=devops_user
+      - DB_PASSWORD=InnovatechSecurePassword2026
     depends_on:
-      - postgres-db
+      - mysql-db
     networks:
       - innovatech-net
 
@@ -60,4 +65,4 @@ networks:
 
 # --- VOLÚMENES ---
 volumes:
-  postgres_data:
+  mysql_data:
