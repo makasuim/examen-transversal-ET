@@ -12,13 +12,26 @@ RUN npm ci
 COPY . .
 RUN npm run build
 
-# --- ETAPA 2: Ejecución (Runtime) ---
+# --- ETAPA 2: Ejecución (Runtime - Nginx Seguro) ---
 FROM nginx:1.25-alpine
 
-# Copiar los archivos estáticos generados por Vite al directorio de Nginx
+# 1. Configurar Nginx para operar como usuario NO-ROOT (Seguridad avanzada)
+RUN touch /var/run/nginx.pid && \
+    chown -R nginx:nginx /var/run/nginx.pid /var/cache/nginx /var/log/nginx /etc/nginx
+
+# 2. Modificar el archivo de configuración interno para escuchar en el puerto 8080
+RUN sed -i 's/listen\(.*\)80;/listen 8080;/' /etc/nginx/conf.d/default.conf
+
+# 3. Copiar los archivos estáticos generados por Vite al directorio de Nginx
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# Exponer el puerto estándar de Nginx
-EXPOSE 80
+# 4. Asegurar que los archivos copiados pertenezcan al usuario nginx
+RUN chown -R nginx:nginx /usr/share/nginx/html
 
-CMD ["nginx", "-g", "daemon off;"]  
+# 5. Cambiar el contexto de ejecución al usuario sin privilegios
+USER nginx
+
+# Exponer el nuevo puerto no privilegiado
+EXPOSE 8080
+
+CMD ["nginx", "-g", "daemon off;"]
