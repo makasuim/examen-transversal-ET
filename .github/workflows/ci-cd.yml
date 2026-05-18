@@ -2,9 +2,7 @@ name: Innovatech Chile CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [ "deploy" ]  # Activación exclusiva en la rama deploy según rúbrica
 
 jobs:
   # --- ETAPA 1: VALIDACIÓN E INTEGRACIÓN CONTINUA (CI) ---
@@ -60,3 +58,77 @@ jobs:
       run: |
         cd "proyecto semestral"
         docker compose config
+
+  # --- ETAPA 3: CONSTRUCCIÓN Y PUBLICACIÓN EN AMAZON ECR ---
+  build-and-push-images:
+    needs: docker-smoke-test
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout del código
+      uses: actions/checkout@v4
+
+    # Configurar herramientas de AWS con el Token temporal de Learner Labs
+    - name: Configurar credenciales de AWS
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}  # Obligatorio para AWS Academy
+        aws-region: us-east-1  # Región por defecto de AWS Academy
+
+    # Logearse en Amazon ECR de forma segura
+    - name: Iniciar sesión en Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Configurar Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    # Construcción y subida automática a tus repositorios de ECR
+    - name: Build & Push Frontend Image
+      uses: docker/build-push-action@v5
+      with:
+        context: "./proyecto semestral/front_despacho"
+        push: true
+        tags: ${{ steps.login-ecr.outputs.registry }}/innovatech-front:latest
+
+    - name: Build & Push Backend Despachos Image
+      uses: docker/build-push-action@v5
+      with:
+        context: "./proyecto semestral/back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO"
+        push: true
+        tags: ${{ steps.login-ecr.outputs.registry }}/innovatech-back-despachos:latest
+
+    - name: Build & Push Backend Ventas Image
+      uses: docker/build-push-action@v5
+      with:
+        context: "./proyecto semestral/back-Ventas_SpringBoot/Springboot-API-REST"
+        push: true
+        tags: ${{ steps.login-ecr.outputs.registry }}/innovatech-back-ventas:latest
+
+  # --- ETAPA 4: DESPLIEGUE AUTOMATIZADO EN AWS EC2 ---
+  deploy-to-ec2:
+    needs: build-and-push-images
+    runs-on: ubuntu-latest
+    steps:
+    - name: Desplegar en EC2 vía SSH
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          # Autenticar la propia instancia EC2 contra ECR para que tenga permiso de descarga
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ECR_REGISTRY }}
+          
+          # Navegar hasta la ubicación del proyecto en tu EC2
+          cd "/home/${{ secrets.EC2_USERNAME }}/prueba-devops-2/proyecto semestral"
+          
+          # Descargar las imágenes nuevas desde AWS ECR
+          docker compose pull
+          
+          # Levantar el stack actualizado
+          docker compose up -d --remove-orphans
+          
+          # Limpieza preventiva de espacio
+          docker image prune -f
