@@ -29,6 +29,7 @@ Inicialización y estado operativo disponible de la Nube Virtual Privada corpora
 
 5. Grupos de seguridad (Security Groups) de Frontend y Backend.
  <img width="911" height="434" alt="x5" src="https://github.com/user-attachments/assets/c3196548-047a-4a7c-9779-cf07bc8c5141" />
+ 
 
 Configuración de firewalls perimetrales (Security Groups) para restringir el acceso a puertos expuestos solo a IPs legítimas internas.
 
@@ -119,6 +120,8 @@ Proceso de empaquetado de assets de React inyectando las dependencias estáticas
 
 20. Despliegue exitoso del Frontend expuesto en el puerto 80.
  <img width="659" height="357" alt="x20" src="https://github.com/user-attachments/assets/f22e9fe0-1507-4f84-a7ed-078a1d8ac3ee" />
+ <img width="589" height="273" alt="started" src="https://github.com/user-attachments/assets/fdb1e4e2-1d98-426e-b860-15362e1d707f" />
+
 
 Control de colisiones de puertos y liberación del proxy inverso front-despacho de cara al internet público a través del puerto HTTP 80.
 
