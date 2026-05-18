@@ -1,3 +1,6 @@
+
+ # README DEL FLUJO DEL PROYECTO
+
 1. Instancias EC2 running (EC2-Frontend y EC2-Backend).
  <img width="393" height="410" alt="x1" src="https://github.com/user-attachments/assets/2fd03c0c-4b8f-4bb5-804f-2b1bb906091f" />
  <img width="589" height="108" alt="instancias" src="https://github.com/user-attachments/assets/73e256dc-b59c-4775-be7d-089649e79833" />
