@@ -2,6 +2,7 @@
  <img width="393" height="410" alt="x1" src="https://github.com/user-attachments/assets/2fd03c0c-4b8f-4bb5-804f-2b1bb906091f" />
 
 
+
 Configuración, inicio de las dos máquinas virtuales principales en AWS EC2 para segmentar el ecosistema de software.
 
 
@@ -29,6 +30,9 @@ Inicialización y estado operativo disponible de la Nube Virtual Privada corpora
 
 5. Grupos de seguridad (Security Groups) de Frontend y Backend.
  <img width="911" height="434" alt="x5" src="https://github.com/user-attachments/assets/c3196548-047a-4a7c-9779-cf07bc8c5141" />
+ <img width="589" height="267" alt="frontend" src="https://github.com/user-attachments/assets/b03f0681-3aa2-474c-b2dc-7214ed33bcf5" />
+<img width="589" height="234" alt="backend" src="https://github.com/user-attachments/assets/918bf2a3-7a8c-4ca7-936f-b31466665c0a" />
+
  
 
 Configuración de firewalls perimetrales (Security Groups) para restringir el acceso a puertos expuestos solo a IPs legítimas internas.
