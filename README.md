@@ -143,3 +143,13 @@ Acceso exitoso al Dashboard web del sistema utilizando la dirección IP pública
  <img width="869" height="438" alt="x22" src="https://github.com/user-attachments/assets/d457368a-f3a0-43a9-9761-f7d8087a96f8" />
 
 Test de integración extremo a extremo gatillando el botón Consultar para verificar la comunicación exitosa.
+
+23.Creamos las vartiables secretas en github, con las credenciales del laboratorio aws para el despliegue del pipeline ci/cd.
+
+<img width="443" height="464" alt="x23" src="https://github.com/user-attachments/assets/d51381d7-517e-4bfc-afc3-747fe674d53b" />
+
+
+24. Luego creamos el Workflow, un archivo yml, para tirar el pipeline ci/cd y se desplieguen automatico.
+
+<img width="662" height="265" alt="x24" src="https://github.com/user-attachments/assets/488ce85b-4996-4511-9abd-fa73a506c530" />
+
