@@ -30,7 +30,7 @@ services:
     environment:
       - DB_ENDPOINT=mysql-db
       - DB_PORT=3306
-      - DB_NAME=innovatech_db
+      - "DB_NAME=innovatech_db?allowPublicKeyRetrieval=true" # <--- CAMBIO AQUÍ: Permiso de llave pública inyectado
       - DB_USERNAME=devops_user
       - DB_PASSWORD=InnovatechSecurePassword2026
     depends_on:
@@ -51,15 +51,13 @@ services:
     environment:
       - DB_ENDPOINT=mysql-db
       - DB_PORT=3306
-      - DB_NAME=innovatech_db
+      - "DB_NAME=innovatech_db?allowPublicKeyRetrieval=true" # <--- CAMBIO AQUÍ: Permiso de llave pública inyectado
       - DB_USERNAME=devops_user
       - DB_PASSWORD=InnovatechSecurePassword2026
     depends_on:
       - mysql-db
     networks:
       - innovatech-net
-
-# *(Nota: Si tienes el servicio de frontend en este mismo compose, agrégale también su línea 'image: 176901090381.dkr.ecr.us-east-1.amazonaws.com/innovatech-front:latest')*
 
 networks:
   innovatech-net:
