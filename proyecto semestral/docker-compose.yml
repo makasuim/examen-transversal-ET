@@ -19,6 +19,7 @@ services:
 
   # --- MICROSERVICIO: DESPACHOS ---
   back-despachos:
+    image: 176901090381.dkr.ecr.us-east-1.amazonaws.com/innovatech-back-despachos:latest
     build:
       context: "./back-Despachos_SpringBoot/Springboot-API-REST-DESPACHO" 
       dockerfile: Dockerfile
@@ -39,6 +40,7 @@ services:
 
   # --- MICROSERVICIO: VENTAS ---
   back-ventas:
+    image: 176901090381.dkr.ecr.us-east-1.amazonaws.com/innovatech-back-ventas:latest
     build:
       context: "./back-Ventas_SpringBoot/Springboot-API-REST" 
       dockerfile: Dockerfile
@@ -57,11 +59,11 @@ services:
     networks:
       - innovatech-net
 
-# --- REDES INTERNAS ---
+# *(Nota: Si tienes el servicio de frontend en este mismo compose, agrégale también su línea 'image: 176901090381.dkr.ecr.us-east-1.amazonaws.com/innovatech-front:latest')*
+
 networks:
   innovatech-net:
     driver: bridge
 
-# --- VOLÚMENES ---
 volumes:
   mysql_data:
