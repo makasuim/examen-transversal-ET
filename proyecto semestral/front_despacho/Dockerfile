@@ -19,14 +19,14 @@ FROM nginx:1.25-alpine
 RUN touch /var/run/nginx.pid && \
     chown -R nginx:nginx /var/run/nginx.pid /var/cache/nginx /var/log/nginx /etc/nginx
 
-# 2. Modificar el archivo de configuración interno para escuchar en el puerto 8080
-RUN sed -i 's/listen\(.*\)80;/listen 8080;/' /etc/nginx/conf.d/default.conf
+# 2. Copiar la configuración del Proxy Inverso (Apunta a EC2-Backend)
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # 3. Copiar los archivos estáticos generados por Vite al directorio de Nginx
 COPY --from=build /app/dist /usr/share/nginx/html
 
-# 4. Asegurar que los archivos copiados pertenezcan al usuario nginx
-RUN chown -R nginx:nginx /usr/share/nginx/html
+# 4. Asegurar que los archivos copiados y la configuración pertenezcan al usuario nginx
+RUN chown -R nginx:nginx /usr/share/nginx/html /etc/nginx/conf.d/default.conf
 
 # 5. Cambiar el contexto de ejecución al usuario sin privilegios
 USER nginx
