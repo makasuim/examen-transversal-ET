@@ -9,17 +9,19 @@ export const TableDespachos = () => {
   const [despachoSeleccionado, setDespachoSeleccionado] = useState(null);
 
   const cargarDespachos = async () => {
-    await axios
-      .get("/api/v1/despachos", {
+    try {
+      // Ruta relativa corregida para que Nginx la intercepte
+      const response = await axios.get("/api/v1/despachos", {
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         }
-      })
-      .then((response) => {
-        console.log(response.data);
-        setDespachos(response.data);
       });
+      console.log(response.data);
+      setDespachos(response.data);
+    } catch (error) {
+      console.error("Error al cargar despachos:", error);
+    }
   };
 
   useEffect(() => {
@@ -36,7 +38,7 @@ export const TableDespachos = () => {
       <section className="grid text-center grid-cols-12 mb-8">
         <div className="col-span-12 flex justify-center">
           <div className="col-span-10 p-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-white h-full overflow-hidden">
-            <table className="table-fixed">
+            <table className="table-fixed w-full">
               <thead>
                 <tr className="py-10">
                   <th className="pr-10">Orden de despacho</th>
@@ -46,6 +48,7 @@ export const TableDespachos = () => {
                   <th className="pr-10">Patente Camión</th>
                   <th className="pr-10">Entregado</th>
                   <th className="pr-10">Intentos de entrega</th>
+                  <th className="pr-10">Acción</th>
                 </tr>
               </thead>
               <tbody>

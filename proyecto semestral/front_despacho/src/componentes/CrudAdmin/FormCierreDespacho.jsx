@@ -15,16 +15,18 @@ export const FormCierreDespacho = ({ despacho, onClose }) => {
     console.log("Datos del formulario:", jsonData);
 
     try {
+      // CORRECCIÓN: Ruta relativa para actualizar despachos
       await axios.put(
-        `http://192.168.320/api/v1/despachos/${despacho.idDespacho}`,
+        `/api/v1/despachos/${despacho.idDespacho}`,
         jsonData,
         {
-          headers:{
+          headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
-      }
+          }
         }
       );
+      
       Swal.fire({
         title: "Despacho modificado 🛻!",
         text: "El despacho ha sido modificado exitosamente",
