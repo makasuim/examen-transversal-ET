@@ -118,18 +118,18 @@ jobs:
         username: ${{ secrets.EC2_USERNAME }}
         key: ${{ secrets.EC2_SSH_KEY }}
         script: |
-          # 1. Autenticar la propia instancia EC2 contra ECR para tener permiso de descarga
+          # 1. Autenticar la propia instancia EC2 contra ECR
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ECR_REGISTRY }}
           
-          # 2. Detener y borrar el contenedor viejo (si existe) para evitar choque de puertos
+          # 2. Detener y borrar el contenedor viejo (si existe)
           docker stop front_despacho || true
           docker rm front_despacho || true
           
-          # 3. Descargar la imagen más fresca recién horneada por el pipeline en la etapa 3
+          # 3. Descargar la imagen fresca
           docker pull ${{ secrets.AWS_ECR_REGISTRY }}/innovatech-front:latest
           
-          # 4. Levantar el nuevo contenedor mapeando el puerto 80 público al 8080 interno
+          # 4. Levantar el contenedor mapeando puerto 80 a 8080
           docker run -d -p 80:8080 --name front_despacho ${{ secrets.AWS_ECR_REGISTRY }}/innovatech-front:latest
           
-          # 5. Limpieza preventiva de espacio en la EC2 eliminando imágenes huérfanas
+          # 5. Limpiar imágenes huérfanas
           docker image prune -f
