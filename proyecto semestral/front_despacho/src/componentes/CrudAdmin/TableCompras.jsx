@@ -9,15 +9,19 @@ export const TableCompras = () => {
   const [ventaSeleccionada, setVentaSeleccionada] = useState(null);
 
   const compras = async () => {
-    await axios.get("/api/v1/ventas", {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    }).then((response) => {
+    try {
+      // Ruta relativa perfecta
+      const response = await axios.get("/api/v1/ventas", {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      });
       console.log(response.data);
       setVentas(response.data);
-    });
+    } catch (error) {
+      console.error("Error al cargar ventas:", error);
+    }
   };
 
   useEffect(() => {
@@ -34,14 +38,14 @@ export const TableCompras = () => {
       <section className="grid text-center grid-cols-12 mb-8">
         <div className="col-span-12 flex justify-center">
           <div className="col-span-10 p-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-white h-full overflow-hidden">
-            <table className="table-fixed">
+            <table className="table-fixed w-full">
               <thead>
                 <tr className="py-10">
                   <th className="pr-10">Orden de compra</th>
-                  <th className="pr-10">direccion</th>
-                  <th className="pr-10">fecha de compra</th>
-                  <th className="pr-10">valor total</th>
-                  <th className="pr-10"></th>
+                  <th className="pr-10">Dirección</th>
+                  <th className="pr-10">Fecha de compra</th>
+                  <th className="pr-10">Valor total</th>
+                  <th className="pr-10">Acción</th>
                 </tr>
               </thead>
               <tbody>
