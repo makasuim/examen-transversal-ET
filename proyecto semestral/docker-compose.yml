@@ -46,7 +46,7 @@ services:
     container_name: back-ventas
     restart: always
     ports:
-      - "8082:8081" # Ajustado para consistencia
+      - "8082:8080" # Ajustado para consistencia
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/innovatech_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       - DB_USERNAME=devops_user
