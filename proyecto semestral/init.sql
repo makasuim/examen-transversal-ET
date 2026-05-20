@@ -1,12 +1,13 @@
-INSERT INTO ventas (direccion_compra, valor_compra, fecha_compra, despacho_generado) 
+-- Insertar datos en VENTAS (usamos nombres exactos del DESCRIBE)
+INSERT INTO ventas (despacho_generado, direccion_compra, fecha_compra, valor_compra) 
 VALUES 
-('P Sherman Calle Wallabi 42 Sydney', 22990, '2026-05-17', false),
-('Avenida Siempre Viva 742', 12590, '2026-05-16', false),
-('Calle Presidente Kirby 8528', 9990, '2026-05-15', false);
+(b'0', 'P Sherman Calle Wallabi 42 Sydney', '2026-05-17', 22990),
+(b'0', 'Avenida Siempre Viva 742', '2026-05-16', 12590),
+(b'0', 'Calle Presidente Kirby 8528', '2026-05-15', 9990);
 
--- Insertar datos para la tabla de despachos
-INSERT INTO despachos (id_despacho, id_compra, direccion_compra, fecha_despacho, patente_camion, entregado) 
+-- Insertar datos en DESPACHOS (usamos nombres exactos del DESCRIBE)
+INSERT INTO despachos (despachado, direccion_compra, fecha_despacho, id_compra, intento, patente_camion, valor_compra) 
 VALUES 
-(1, 1001, 'P Sherman Calle Wallabi 42 Sydney', '2026-05-17', 'AB-CD-12', false),
-(2, 1002, 'Avenida Siempre Viva 742', '2026-05-18', 'EF-GH-34', true),
-(3, 1003, 'Calle Presidente Kirby 8528', '2026-05-19', 'IJ-KL-56', false);
+(b'0', 'P Sherman Calle Wallabi 42 Sydney', '2026-05-17', 1001, 0, 'AB-CD-12', 22990),
+(b'1', 'Avenida Siempre Viva 742', '2026-05-18', 1002, 0, 'EF-GH-34', 12590),
+(b'0', 'Calle Presidente Kirby 8528', '2026-05-19', 1003, 0, 'IJ-KL-56', 9990);
