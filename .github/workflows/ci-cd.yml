@@ -135,7 +135,7 @@ jobs:
           docker pull ${{ secrets.AWS_ECR_REGISTRY }}/innovatech-front:latest
           
           # 4. Levantar el contenedor mapeando puerto 80 a 80 (Nginx)
-          docker run -d -p 80:80 --name front_despacho ${{ secrets.AWS_ECR_REGISTRY }}/innovatech-front:latest
+          docker run -d -p 80:8080 --name front_despacho ${{ secrets.AWS_ECR_REGISTRY }}/innovatech-front:latest
           
           # 5. Limpiar imágenes huérfanas
           docker image prune -f
