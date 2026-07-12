@@ -106,7 +106,7 @@ jobs:
         push: true
         tags: ${{ steps.login-ecr.outputs.registry }}/innovatech-back-ventas:latest
 
-  # --- ETAPA 4: DESPLIEGUE AUTOMATIZADO EN AWS EC2 FRONTEND ---
+ # --- ETAPA 4: DESPLIEGUE AUTOMATIZADO EN AWS EC2 FRONTEND ---
   deploy-to-ec2:
     needs: build-and-push-images
     runs-on: ubuntu-latest
@@ -128,8 +128,8 @@ jobs:
           # 3. Descargar la imagen fresca
           docker pull ${{ secrets.AWS_ECR_REGISTRY }}/innovatech-front:latest
           
-          # 4. Levantar el contenedor mapeando puerto 80 a 8080
-          docker run -d -p 80:8080 --name front_despacho ${{ secrets.AWS_ECR_REGISTRY }}/innovatech-front:latest
+          # 4. Levantar el contenedor mapeando puerto 80 a 80 (Nginx)
+          docker run -d -p 80:80 --name front_despacho ${{ secrets.AWS_ECR_REGISTRY }}/innovatech-front:latest
           
           # 5. Limpiar imágenes huérfanas
           docker image prune -f
