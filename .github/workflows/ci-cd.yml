@@ -121,4 +121,4 @@ jobs:
 
     - name: Desplegar nueva versión en Amazon ECS
       run: |
-        aws ecs update-service --cluster Innovatech-Cluster --service innovatech-front-service --force-new-deployment
+        aws ecs update-service --cluster Innovatech-Cluster --service innovatech-front-task-service-bup3a56o --force-new-deployment
