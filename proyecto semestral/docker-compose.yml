@@ -13,7 +13,6 @@ services:
       MYSQL_PASSWORD: InnovatechSecurePassword2026
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - innovatech-net
 
