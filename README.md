@@ -39,28 +39,21 @@ A continuación, se detalla la evidencia técnica de la infraestructura desplega
 
 ### 1. Diseño de Red Segura (AWS VPC)
 Implementación de la `Innovatech-vpc` aislando los microservicios. El Frontend reside en una subred pública, mientras que los Backends operan en subredes privadas con salida a internet a través de un **NAT Gateway**.
-> `![VPC y Subredes]([ENLACE_A_TU_IMAGEN_VPC])`
 
 ### 2. Seguridad y Reglas Perimetrales (Security Groups)
 Aplicación del principio de mínimo privilegio. El puerto 80 solo está abierto para el Frontend, mientras que los puertos internos (8081, 8082, 3306) solo aceptan tráfico proveniente de los grupos de seguridad permitidos.
-> `![Security Groups]([ENLACE_A_TU_IMAGEN_SG])`
 
 ### 3. Contenedorización Optimizada (Docker)
 Uso de `Dockerfile` con *multi-stage builds* para reducir drásticamente el peso de las imágenes, aislando las APIs de Spring Boot y el cliente de React.
-> `![Docker config]([ENLACE_A_TU_IMAGEN_DOCKERFILE])`
 
 ### 4. Almacenamiento Privado de Imágenes (Amazon ECR)
 Creación de registros inmutables y encriptados (`innovatech-front`, `innovatech-back-ventas`, `innovatech-back-despachos`) que actúan como puente entre el Pipeline y Producción.
-> `![Repositorios ECR]([ENLACE_A_TU_IMAGEN_ECR])`
 
 ### 5. Pipeline Automatizado (Actions Workflow)
 Evidencia de la ejecución exitosa de los "Jobs" en GitHub Actions, pasando desde la compilación de código hasta la inyección de las imágenes en AWS.
-> `![Pipeline Success]([ENLACE_A_TU_IMAGEN_PIPELINE])`
 
 ### 6. Orquestación Serverless en Producción (Amazon ECS)
 El clúster `Innovatech-Cluster` operando las Tareas (Tasks) en **AWS Fargate**, garantizando *Self-healing* (auto-recuperación) y evitando la administración de instancias EC2.
-> `![Clúster ECS]([ENLACE_A_TU_IMAGEN_CLUSTER_ECS])`
 
 ### 7. Resultado Final: Plataforma Operativa (E2E)
 Dashboard de Despachos consumiendo los microservicios internos en tiempo real a través de la IP pública del balanceador/frontend, validando la comunicación exitosa en la nube.
-> `![Dashboard Operativo]([ENLACE_A_TU_IMAGEN_FRONTEND_FINAL])`
